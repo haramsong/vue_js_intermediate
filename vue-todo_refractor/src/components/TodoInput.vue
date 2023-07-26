@@ -1,15 +1,17 @@
 <template>
   <div class="inputBox shadow">
-    <!-- @ = v-on -->
-    <input type="text" v-model="newTodoItem" @keyup.enter="addTodo">
-    <!-- <button v-on:click="addTodo" class="addBtn">add</button> -->
+    <input type="text" 
+           v-model="newTodoItem" 
+           @keyup.enter="addTodo">
     <span class="addContainer" @click="addTodo">
       <i class="fa-solid fa-plus addBtn"></i>
     </span>
     <Modal v-if="showModal" @close="showModal = false">
       <h3 slot="header">
         경고!
-        <i class="closeModalBtn modal-default-button fas fa-times" @click="showModal = false"></i>
+        <i class="closeModalBtn modal-default-button fas fa-times" 
+           @click="showModal = false">
+        </i>
       </h3>
       <div slot="body">
         아무것도 입력하지 않으셨습니다.
@@ -22,23 +24,23 @@
 import Modal from './common/Modal.vue';
 
 export default {
-  data: function() {
+  data() {
     return {
       newTodoItem: "",
       showModal: false,
     }
   },
   methods: {
-    addTodo: function() {
+    addTodo() {
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem);
+        const text = this.newTodoItem.trim();
+        this.$store.commit('addOneItem', text);
         this.clearInput();
       } else {
         this.showModal = true;
       }
     },
-    clearInput: function() {
-      // input 초기화
+    clearInput() {
       this.newTodoItem = '';
     }
   },
